@@ -18,6 +18,22 @@ One of the main goals of this demo is to show a representative example of a real
 * Add liveliness QoS and other real-time friendly DDS QoS.
 * Explore the use of callback groups.
 
+
+### Managed nodes
+
+The main nodes used in the demo `/pendulum_controller` and `/pendulum_driver` are [managed nodes](https://design.ros2.org/articles/node_lifecycle.html). That is, they inherit from a Lifecycle node and it is posible to control the node state.
+
+![lifecycle_rt](docs/images/node_lifecycle_rt.png)
+
+The image above was taken from [Jackie Kay's Roscon keynote in 2015](https://roscon.ros.org/2015/presentations/RealtimeROS2.pdf).
+
+All the configurations and memory allocation must be done in the `onConfigure` transition. In active state all the computations should be real-time compliant. This may be not completely true for the moment but it's that's the goal.
+
+The package `pendulum_manager` was created in order to control the state of the nodes easier. This package is in a very early stage, the idea is this package to become a rqt plugin with a control panel.
+
+Just for fun you can try to deactivate the controller node while the simulation is active to see the pendulum falling down.
+
+
 ### Pendulum control
 
 Another goal of the demo is to provide a simple use case to develop and test with different controllers. For this reason, it would be interesing to add more controllers to the existing projects. For example a PID controller or a [LQG controller](https://en.wikipedia.org/wiki/Linear%E2%80%93quadratic%E2%80%93Gaussian_control) by adding a [kalman filter](https://en.wikipedia.org/wiki/Kalman_filter). It would interesting also to add new capabilities such as a [swing-up](https://youtu.be/hQK_3C6S4Ak?t=285) capable controller.
